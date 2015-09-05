@@ -11,6 +11,7 @@ public class Plastic extends Scrollable {
 	private float groundY;
 	private Circle boundingCircle;
 	private boolean isScored = false;
+	private float rotation;
 
 	// When Plastic constructor is invoked, invoke the super (Scrollable)
 	// constructor
@@ -20,7 +21,7 @@ public class Plastic extends Scrollable {
 		// Initialize a Random object for Random number generation
 		r = new Random();
 		boundingCircle = new Circle();
-
+		rotation = r.nextInt(90);
 		this.groundY = groundY;
 	}
 
@@ -30,6 +31,7 @@ public class Plastic extends Scrollable {
 		super.update(delta);
 
 		boundingCircle.set(position.x + 10, position.y + 9, 10.5f);
+		rotation += (delta * 10);
 	}
 
 	@Override
@@ -38,7 +40,7 @@ public class Plastic extends Scrollable {
 		super.reset(newX);
 		// Change the height to a random number
 		// height = r.nextInt(90) + 15;
-		position.y = r.nextInt(90) + 15;
+		position.y = r.nextInt(100) + 15;
 		isScored = false;
 	}
 
@@ -65,5 +67,9 @@ public class Plastic extends Scrollable {
 	public void onRestart(float x, float scrollSpeed) {
 		velocity.x = scrollSpeed;
 		reset(x);
+	}
+	
+	public float getRotation() {
+		return rotation;
 	}
 }

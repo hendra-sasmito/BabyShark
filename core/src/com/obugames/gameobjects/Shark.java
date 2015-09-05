@@ -10,7 +10,7 @@ public class Shark {
 	private Vector2 velocity;
 	private Vector2 acceleration;
 
-	private float rotation; // For handling bird rotation
+	private float rotation; // For handling shark rotation
 	private int width;
 	private int height;
 	private float originalY;

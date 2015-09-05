@@ -8,7 +8,7 @@ public class ScrollHandler {
 	// ScrollHandler will create all five objects that we need.
 	private SeaFloor frontSeaFloor, backSeaFloor;
 	private SeaSurface frontSeaSurface, backSeaSurface;
-	private Plastic plastic1, plastic2, plastic3, plastic4, plastic5;
+	private Plastic plastic1, plastic2, plastic3, plastic4, plastic5, plastic6;
 
 	// ScrollHandler will use the constants below to determine
 	// how fast we need to scroll and also determine
@@ -16,7 +16,9 @@ public class ScrollHandler {
 
 	// Capital letters are used by convention when naming constants.
 	public static final int SCROLL_SPEED = -59;
-	public static final int PIPE_GAP = 49;
+	public static final int PLASTIC_GAP = 48;
+	
+	public static final int DIVIDER = 3;
 
 	private GameWorld gameWorld;
 
@@ -27,48 +29,50 @@ public class ScrollHandler {
 		frontSeaFloor = new SeaFloor(0, yPos, 143, 11, SCROLL_SPEED);
 		backSeaFloor = new SeaFloor(frontSeaFloor.getTailX(), yPos, 143, 11,
 				SCROLL_SPEED);
-		
+
 		frontSeaSurface = new SeaSurface(0, 0, 143, 12, SCROLL_SPEED);
 		backSeaSurface = new SeaSurface(frontSeaSurface.getTailX(), 0, 143, 12,
 				SCROLL_SPEED);
 
-		plastic1 = new Plastic(210, 0, 24, 19, SCROLL_SPEED, yPos);
-		plastic2 = new Plastic(plastic1.getTailX() + PIPE_GAP, 0, 24, 19,
+		plastic1 = new Plastic(210, 10, 24, 19, SCROLL_SPEED, yPos);
+		plastic2 = new Plastic(plastic1.getTailX() + PLASTIC_GAP / DIVIDER, 0, 24, 19,
 				SCROLL_SPEED, yPos);
-		plastic3 = new Plastic(plastic2.getTailX() + PIPE_GAP, 0, 24, 19,
+		plastic3 = new Plastic(plastic2.getTailX() + PLASTIC_GAP / DIVIDER, 0, 24, 19,
 				SCROLL_SPEED, yPos);
-		plastic4 = new Plastic(plastic1.getTailX() + PIPE_GAP/2, 0, 24, 19,
+		plastic4 = new Plastic(plastic3.getTailX() + PLASTIC_GAP / DIVIDER, 0, 24, 19,
 				SCROLL_SPEED, yPos);
-		plastic5 = new Plastic(plastic2.getTailX() + PIPE_GAP/2, 0, 24, 19,
+		plastic5 = new Plastic(plastic4.getTailX() + PLASTIC_GAP / DIVIDER, 0, 24, 19,
+				SCROLL_SPEED, yPos);
+		plastic6 = new Plastic(plastic5.getTailX() + PLASTIC_GAP / DIVIDER, 0, 24, 19,
 				SCROLL_SPEED, yPos);
 
 	}
-	
+
 	public void updateReady(float delta) {
 
-        frontSeaFloor.update(delta);
-        backSeaFloor.update(delta);
-        
-        frontSeaSurface.update(delta);
-        backSeaSurface.update(delta);
+		frontSeaFloor.update(delta);
+		backSeaFloor.update(delta);
 
-        // Same with grass
-        if (frontSeaFloor.isScrolledLeft()) {
-            frontSeaFloor.reset(backSeaFloor.getTailX());
+		frontSeaSurface.update(delta);
+		backSeaSurface.update(delta);
 
-        } else if (backSeaFloor.isScrolledLeft()) {
-            backSeaFloor.reset(frontSeaFloor.getTailX());
+		// Same with grass
+		if (frontSeaFloor.isScrolledLeft()) {
+			frontSeaFloor.reset(backSeaFloor.getTailX());
 
-        }
-        if (frontSeaSurface.isScrolledLeft()) {
-            frontSeaSurface.reset(backSeaSurface.getTailX());
+		} else if (backSeaFloor.isScrolledLeft()) {
+			backSeaFloor.reset(frontSeaFloor.getTailX());
 
-        } else if (backSeaSurface.isScrolledLeft()) {
-            backSeaSurface.reset(frontSeaSurface.getTailX());
+		}
+		if (frontSeaSurface.isScrolledLeft()) {
+			frontSeaSurface.reset(backSeaSurface.getTailX());
 
-        }
+		} else if (backSeaSurface.isScrolledLeft()) {
+			backSeaSurface.reset(frontSeaSurface.getTailX());
 
-    }
+		}
+
+	}
 
 	public void update(float delta) {
 		// Update our objects
@@ -81,20 +85,23 @@ public class ScrollHandler {
 		plastic3.update(delta);
 		plastic4.update(delta);
 		plastic5.update(delta);
+		plastic6.update(delta);
 
 		// Check if any of the pipes are scrolled left,
 		// and reset accordingly
 		if (plastic1.isScrolledLeft()) {
-			plastic1.reset(plastic3.getTailX() + PIPE_GAP);
+			plastic1.reset(plastic6.getTailX() + PLASTIC_GAP / DIVIDER);
 		} else if (plastic2.isScrolledLeft()) {
-			plastic2.reset(plastic1.getTailX() + PIPE_GAP);
+			plastic2.reset(plastic1.getTailX() + PLASTIC_GAP / DIVIDER);
 
 		} else if (plastic3.isScrolledLeft()) {
-			plastic3.reset(plastic2.getTailX() + PIPE_GAP);
+			plastic3.reset(plastic2.getTailX() + PLASTIC_GAP / DIVIDER);
 		} else if (plastic4.isScrolledLeft()) {
-			plastic4.reset(plastic1.getTailX() + PIPE_GAP/2);
+			plastic4.reset(plastic3.getTailX() + PLASTIC_GAP / DIVIDER);
 		} else if (plastic5.isScrolledLeft()) {
-			plastic5.reset(plastic2.getTailX() + PIPE_GAP/2);
+			plastic5.reset(plastic4.getTailX() + PLASTIC_GAP / DIVIDER);
+		} else if (plastic6.isScrolledLeft()) {
+			plastic6.reset(plastic5.getTailX() + PLASTIC_GAP / DIVIDER);
 		}
 
 		if (frontSeaFloor.isScrolledLeft()) {
@@ -124,6 +131,7 @@ public class ScrollHandler {
 		plastic3.stop();
 		plastic4.stop();
 		plastic5.stop();
+		plastic6.stop();
 	}
 
 	public boolean collides(Shark shark) {
@@ -162,10 +170,18 @@ public class ScrollHandler {
 			plastic5.setScored(true);
 			AssetLoader.coin.play();
 
-		}  
+		} else if (!plastic6.isScored()
+				&& plastic6.getX() + (plastic6.getWidth() / 2) < shark.getX()
+						+ shark.getWidth()) {
+			addScore(1);
+			plastic6.setScored(true);
+			AssetLoader.coin.play();
 
-		return (plastic1.collides(shark) || plastic2.collides(shark) || plastic3
-				.collides(shark) || plastic4.collides(shark) || plastic5.collides(shark));
+		}
+
+		return (plastic1.collides(shark) || plastic2.collides(shark)
+				|| plastic3.collides(shark) || plastic4.collides(shark) || plastic5
+					.collides(shark) || plastic6.collides(shark));
 	}
 
 	public SeaFloor getFrontSeaFloor() {
@@ -175,7 +191,7 @@ public class ScrollHandler {
 	public SeaFloor getBackSeaFloor() {
 		return backSeaFloor;
 	}
-	
+
 	public SeaSurface getFrontSeaSurface() {
 		return frontSeaSurface;
 	}
@@ -195,13 +211,17 @@ public class ScrollHandler {
 	public Plastic getPlastic3() {
 		return plastic3;
 	}
-	
+
 	public Plastic getPlastic4() {
 		return plastic4;
 	}
-	
+
 	public Plastic getPlastic5() {
 		return plastic5;
+	}
+	
+	public Plastic getPlastic6() {
+		return plastic6;
 	}
 
 	private void addScore(int increment) {
@@ -214,9 +234,10 @@ public class ScrollHandler {
 		frontSeaSurface.onRestart(0, SCROLL_SPEED);
 		backSeaSurface.onRestart(frontSeaSurface.getTailX(), SCROLL_SPEED);
 		plastic1.onRestart(210, SCROLL_SPEED);
-		plastic2.onRestart(plastic1.getTailX() + PIPE_GAP, SCROLL_SPEED);
-		plastic3.onRestart(plastic2.getTailX() + PIPE_GAP, SCROLL_SPEED);
-		plastic4.onRestart(plastic1.getTailX() + PIPE_GAP/2, SCROLL_SPEED);
-		plastic5.onRestart(plastic2.getTailX() + PIPE_GAP/2, SCROLL_SPEED);
+		plastic2.onRestart(plastic1.getTailX() + PLASTIC_GAP / DIVIDER, SCROLL_SPEED);
+		plastic3.onRestart(plastic2.getTailX() + PLASTIC_GAP / DIVIDER, SCROLL_SPEED);
+		plastic4.onRestart(plastic3.getTailX() + PLASTIC_GAP / DIVIDER, SCROLL_SPEED);
+		plastic5.onRestart(plastic4.getTailX() + PLASTIC_GAP / DIVIDER, SCROLL_SPEED);
+		plastic6.onRestart(plastic5.getTailX() + PLASTIC_GAP / DIVIDER, SCROLL_SPEED);
 	}
 }
