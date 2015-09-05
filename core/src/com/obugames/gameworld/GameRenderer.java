@@ -19,10 +19,10 @@ import com.obugames.TweenAccessors.Value;
 import com.obugames.TweenAccessors.ValueAccessor;
 import com.obugames.bshelpers.AssetLoader;
 import com.obugames.bshelpers.InputHandler;
-import com.obugames.gameobjects.Bomb;
 import com.obugames.gameobjects.Plastic;
 import com.obugames.gameobjects.ScrollHandler;
 import com.obugames.gameobjects.SeaFloor;
+import com.obugames.gameobjects.SeaSurface;
 import com.obugames.gameobjects.Shark;
 import com.obugames.ui.SimpleButton;
 
@@ -41,15 +41,14 @@ public class GameRenderer {
 	private Shark shark;
 	private ScrollHandler scroller;
 	private SeaFloor frontSeaFloor, backSeaFloor;
+	private SeaSurface frontSeaSurface, backSeaSurface;
 	private Plastic plastic1, plastic2, plastic3, plastic4, plastic5;
-	private Bomb bomb1;
 
 	// Game Assets
-	private TextureRegion bg, seaFloor;
+	private TextureRegion bg, seaFloor, seaSurface;
 	private Animation sharkAnimation;
 	private TextureRegion sharkMid, sharkDown, sharkUp;
 	private TextureRegion skullUp, skullDown, plastic;
-	private TextureRegion bomb;
 
 	// Tween stuff
 	private TweenManager manager;
@@ -67,7 +66,7 @@ public class GameRenderer {
 		this.gameHeight = gameHeight;
 		this.midPointY = midPointY;
 		this.menuButtons = ((InputHandler) Gdx.input.getInputProcessor())
-                .getMenuButtons();
+				.getMenuButtons();
 
 		cam = new OrthographicCamera();
 		cam.setToOrtho(true, 136, gameHeight);
@@ -101,7 +100,7 @@ public class GameRenderer {
 		shapeRenderer.begin(ShapeType.Filled);
 
 		// Draw Background color
-		shapeRenderer.setColor(75 / 255.0f, 163 / 255.0f, 203 / 255.0f, 1);
+		shapeRenderer.setColor(113 / 255.0f, 241 / 255.0f, 242 / 255.0f, 1);
 		shapeRenderer.rect(0, 0, 136, midPointY + 66);
 
 		// Draw Grass
@@ -126,41 +125,42 @@ public class GameRenderer {
 		// Draw Grass
 		drawSeaFloor();
 
+		drawSeaSurface();
+
 		// The bird needs transparency, so we enable that again.
 		batcher.enableBlending();
 
 		// Draw Plastics
 		drawPlastics();
 
-		// drawBombs();
-		
 		if (myWorld.isRunning()) {
-            drawShark(runTime);
-            drawScore();
-        } else if (myWorld.isReady()) {
-        	drawShark(runTime);
-            drawScore();
-        } else if (myWorld.isMenu()) {
-        	drawSharkCentered(runTime);
-            drawMenuUI();
-        } else if (myWorld.isGameOver()) {
-        	drawShark(runTime);
-            drawScore();
-        } else if (myWorld.isHighScore()) {
-        	drawShark(runTime);
-            drawScore();
-        }
-		
+			drawShark(runTime);
+			drawScore();
+		} else if (myWorld.isReady()) {
+			drawShark(runTime);
+			drawScore();
+		} else if (myWorld.isMenu()) {
+			drawSharkCentered(runTime);
+			drawMenuUI();
+		} else if (myWorld.isGameOver()) {
+			drawShark(runTime);
+			drawScore();
+		} else if (myWorld.isHighScore()) {
+			drawShark(runTime);
+			drawScore();
+		}
+
 		batcher.end();
-        drawTransition(delta);
+		drawTransition(delta);
 	}
-	
+
 	private void drawSharkCentered(float runTime) {
-        batcher.draw(sharkAnimation.getKeyFrame(runTime), 59, shark.getY() - 15,
-        		shark.getWidth() / 2.0f, shark.getHeight() / 2.0f,
-        		shark.getWidth(), shark.getHeight(), 1, 1, shark.getRotation());
-    }
-	
+		batcher.draw(sharkAnimation.getKeyFrame(runTime), 59,
+				shark.getY() - 15, shark.getWidth() / 2.0f,
+				shark.getHeight() / 2.0f, shark.getWidth(), shark.getHeight(),
+				1, 1, shark.getRotation());
+	}
+
 	private void drawShark(float runTime) {
 		if (shark.shouldntFlap()) {
 			batcher.draw(sharkMid, shark.getX(), shark.getY(),
@@ -175,112 +175,45 @@ public class GameRenderer {
 					shark.getHeight(), 1, 1, shark.getRotation());
 		}
 	}
-		// TEMPORARY CODE! We will fix this section later:
-
-	/*	if (myWorld.isReady()) {
-			// Draw shadow first
-			AssetLoader.shadow.draw(batcher, "Touch me", (136 / 2) - (42), 76);
-			// Draw text
-			AssetLoader.font
-					.draw(batcher, "Touch me", (136 / 2) - (42 - 1), 75);
-		} else {
-			if (myWorld.isGameOver() || myWorld.isHighScore()) {
-				if (myWorld.isGameOver()) {
-					AssetLoader.shadow.draw(batcher, "Game Over", 25, 56);
-					AssetLoader.font.draw(batcher, "Game Over", 24, 55);
-
-					AssetLoader.shadow.draw(batcher, "Try again?", 23, 76);
-					AssetLoader.font.draw(batcher, "Try again?", 24, 75);
-
-					String highScore = AssetLoader.getHighScore() + "";
-
-					// Draw shadow first
-					AssetLoader.shadow.draw(batcher, highScore, (136 / 2)
-							- (3 * highScore.length()), 128);
-					// Draw text
-					AssetLoader.font.draw(batcher, highScore, (136 / 2)
-							- (3 * highScore.length() - 1), 127);
-
-				} else {
-					AssetLoader.shadow.draw(batcher, "High Score!", 19, 56);
-					AssetLoader.font.draw(batcher, "High Score!", 18, 55);
-				}
-				AssetLoader.shadow.draw(batcher, "Try again?", 23, 76);
-				AssetLoader.font.draw(batcher, "Try again?", 24, 75);
-
-				// Convert integer into String
-				String score = myWorld.getScore() + "";
-
-				// Draw shadow first
-				AssetLoader.shadow.draw(batcher, score,
-						(136 / 2) - (3 * score.length()), 12);
-				// Draw text
-				AssetLoader.font.draw(batcher, score,
-						(136 / 2) - (3 * score.length() - 1), 11);
-
-			}
-			// Convert integer into String
-			String score = myWorld.getScore() + "";
-
-			// Draw shadow first
-			AssetLoader.shadow.draw(batcher, "" + myWorld.getScore(), (136 / 2)
-					- (3 * score.length()), 12);
-			// Draw text
-			AssetLoader.font.draw(batcher, "" + myWorld.getScore(), (136 / 2)
-					- (3 * score.length() - 1), 11);
-		}
-		// End SpriteBatch
-		batcher.end();
-*/
-		/*
-		 * shapeRenderer.begin(ShapeType.Filled);
-		 * shapeRenderer.setColor(Color.RED);
-		 * shapeRenderer.circle(shark.getBoundingCircle().x,
-		 * shark.getBoundingCircle().y, shark.getBoundingCircle().radius);
-		 * 
-		 * shapeRenderer.circle(plastic1.getBoundingCircle().x,
-		 * plastic1.getBoundingCircle().y, plastic1.getBoundingCircle().radius);
-		 * shapeRenderer.circle(plastic2.getBoundingCircle().x,
-		 * plastic2.getBoundingCircle().y, plastic2.getBoundingCircle().radius);
-		 * shapeRenderer.circle(plastic3.getBoundingCircle().x,
-		 * plastic3.getBoundingCircle().y, plastic3.getBoundingCircle().radius);
-		 */
-/*
-		shapeRenderer.end();
-	}*/
 
 	private void initGameObjects() {
 		shark = myWorld.getShark();
 		scroller = myWorld.getScroller();
 		frontSeaFloor = scroller.getFrontSeaFloor();
 		backSeaFloor = scroller.getBackSeaFloor();
+		frontSeaSurface = scroller.getFrontSeaSurface();
+		backSeaSurface = scroller.getBackSeaSurface();
 		plastic1 = scroller.getPlastic1();
 		plastic2 = scroller.getPlastic2();
 		plastic3 = scroller.getPlastic3();
 		plastic4 = scroller.getPlastic4();
 		plastic5 = scroller.getPlastic5();
-		bomb1 = scroller.getBomb1();
 	}
 
 	private void initAssets() {
 		bg = AssetLoader.bg;
 		seaFloor = AssetLoader.seaFloor;
+		seaSurface = AssetLoader.seaSurface;
 		sharkAnimation = AssetLoader.sharkAnimation;
 		sharkMid = AssetLoader.shark;
 		sharkDown = AssetLoader.sharkDown;
 		sharkUp = AssetLoader.sharkUp;
-		skullUp = AssetLoader.skullUp;
-		skullDown = AssetLoader.skullDown;
 		plastic = AssetLoader.plastic;
-		bomb = AssetLoader.bomb;
 	}
 
 	private void drawSeaFloor() {
-		// Draw the grass
 		batcher.draw(seaFloor, frontSeaFloor.getX(), frontSeaFloor.getY(),
 				frontSeaFloor.getWidth(), frontSeaFloor.getHeight());
 		batcher.draw(seaFloor, backSeaFloor.getX(), backSeaFloor.getY(),
 				backSeaFloor.getWidth(), backSeaFloor.getHeight());
+	}
+
+	private void drawSeaSurface() {
+		batcher.draw(seaSurface, frontSeaSurface.getX(),
+				frontSeaSurface.getY(), frontSeaSurface.getWidth(),
+				frontSeaSurface.getHeight());
+		batcher.draw(seaSurface, backSeaSurface.getX(), backSeaSurface.getY(),
+				backSeaSurface.getWidth(), backSeaSurface.getHeight());
 	}
 
 	private void drawPlastics() {
@@ -313,13 +246,6 @@ public class GameRenderer {
 		batcher.draw(plastic, plastic5.getX(), plastic5.getY(),
 				plastic5.getWidth(), plastic5.getHeight());
 
-	}
-
-	private void drawBombs() {
-		// Temporary code! Sorry about the mess :)
-		// We will fix this when we finish the Pipe class.
-		batcher.draw(bomb, bomb1.getX(), bomb1.getY(), bomb1.getWidth(),
-				bomb1.getHeight());
 	}
 
 	private void drawMenuUI() {

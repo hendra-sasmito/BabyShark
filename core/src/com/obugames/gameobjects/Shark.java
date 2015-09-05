@@ -25,7 +25,7 @@ public class Shark {
 		this.originalY = y;
 		position = new Vector2(x, y);
 		velocity = new Vector2(0, 0);
-		acceleration = new Vector2(0, 460);
+		acceleration = new Vector2(0, 360);
 		boundingCircle = new Circle();
 		isAlive = true;
 	}

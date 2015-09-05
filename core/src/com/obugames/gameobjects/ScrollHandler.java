@@ -7,8 +7,8 @@ public class ScrollHandler {
 
 	// ScrollHandler will create all five objects that we need.
 	private SeaFloor frontSeaFloor, backSeaFloor;
+	private SeaSurface frontSeaSurface, backSeaSurface;
 	private Plastic plastic1, plastic2, plastic3, plastic4, plastic5;
-	private Bomb bomb1;
 
 	// ScrollHandler will use the constants below to determine
 	// how fast we need to scroll and also determine
@@ -27,6 +27,10 @@ public class ScrollHandler {
 		frontSeaFloor = new SeaFloor(0, yPos, 143, 11, SCROLL_SPEED);
 		backSeaFloor = new SeaFloor(frontSeaFloor.getTailX(), yPos, 143, 11,
 				SCROLL_SPEED);
+		
+		frontSeaSurface = new SeaSurface(0, 0, 143, 12, SCROLL_SPEED);
+		backSeaSurface = new SeaSurface(frontSeaSurface.getTailX(), 0, 143, 12,
+				SCROLL_SPEED);
 
 		plastic1 = new Plastic(210, 0, 24, 19, SCROLL_SPEED, yPos);
 		plastic2 = new Plastic(plastic1.getTailX() + PIPE_GAP, 0, 24, 19,
@@ -38,13 +42,15 @@ public class ScrollHandler {
 		plastic5 = new Plastic(plastic2.getTailX() + PIPE_GAP/2, 0, 24, 19,
 				SCROLL_SPEED, yPos);
 
-		bomb1 = new Bomb(240, 0, 9, 11, SCROLL_SPEED);
 	}
 	
 	public void updateReady(float delta) {
 
         frontSeaFloor.update(delta);
         backSeaFloor.update(delta);
+        
+        frontSeaSurface.update(delta);
+        backSeaSurface.update(delta);
 
         // Same with grass
         if (frontSeaFloor.isScrolledLeft()) {
@@ -54,6 +60,13 @@ public class ScrollHandler {
             backSeaFloor.reset(frontSeaFloor.getTailX());
 
         }
+        if (frontSeaSurface.isScrolledLeft()) {
+            frontSeaSurface.reset(backSeaSurface.getTailX());
+
+        } else if (backSeaSurface.isScrolledLeft()) {
+            backSeaSurface.reset(frontSeaSurface.getTailX());
+
+        }
 
     }
 
@@ -61,12 +74,13 @@ public class ScrollHandler {
 		// Update our objects
 		frontSeaFloor.update(delta);
 		backSeaFloor.update(delta);
+		frontSeaSurface.update(delta);
+		backSeaSurface.update(delta);
 		plastic1.update(delta);
 		plastic2.update(delta);
 		plastic3.update(delta);
 		plastic4.update(delta);
 		plastic5.update(delta);
-		bomb1.update(delta);
 
 		// Check if any of the pipes are scrolled left,
 		// and reset accordingly
@@ -83,11 +97,6 @@ public class ScrollHandler {
 			plastic5.reset(plastic2.getTailX() + PIPE_GAP/2);
 		}
 
-		if (bomb1.isScrolledLeft()) {
-			bomb1.reset(plastic3.getTailX() + PIPE_GAP);
-		}
-
-		// Same with grass
 		if (frontSeaFloor.isScrolledLeft()) {
 			frontSeaFloor.reset(backSeaFloor.getTailX());
 
@@ -95,11 +104,21 @@ public class ScrollHandler {
 			backSeaFloor.reset(frontSeaFloor.getTailX());
 
 		}
+		if (frontSeaSurface.isScrolledLeft()) {
+			frontSeaSurface.reset(backSeaSurface.getTailX());
+
+		} else if (backSeaSurface.isScrolledLeft()) {
+			backSeaSurface.reset(frontSeaSurface.getTailX());
+
+		}
+
 	}
 
 	public void stop() {
 		frontSeaFloor.stop();
 		backSeaFloor.stop();
+		frontSeaSurface.stop();
+		backSeaSurface.stop();
 		plastic1.stop();
 		plastic2.stop();
 		plastic3.stop();
@@ -149,13 +168,20 @@ public class ScrollHandler {
 				.collides(shark) || plastic4.collides(shark) || plastic5.collides(shark));
 	}
 
-	// The getters for our five instance variables
 	public SeaFloor getFrontSeaFloor() {
 		return frontSeaFloor;
 	}
 
 	public SeaFloor getBackSeaFloor() {
 		return backSeaFloor;
+	}
+	
+	public SeaSurface getFrontSeaSurface() {
+		return frontSeaSurface;
+	}
+
+	public SeaSurface getBackSeaSurface() {
+		return backSeaSurface;
 	}
 
 	public Plastic getPlastic1() {
@@ -178,10 +204,6 @@ public class ScrollHandler {
 		return plastic5;
 	}
 
-	public Bomb getBomb1() {
-		return bomb1;
-	}
-
 	private void addScore(int increment) {
 		gameWorld.addScore(increment);
 	}
@@ -189,6 +211,8 @@ public class ScrollHandler {
 	public void onRestart() {
 		frontSeaFloor.onRestart(0, SCROLL_SPEED);
 		backSeaFloor.onRestart(frontSeaFloor.getTailX(), SCROLL_SPEED);
+		frontSeaSurface.onRestart(0, SCROLL_SPEED);
+		backSeaSurface.onRestart(frontSeaSurface.getTailX(), SCROLL_SPEED);
 		plastic1.onRestart(210, SCROLL_SPEED);
 		plastic2.onRestart(plastic1.getTailX() + PIPE_GAP, SCROLL_SPEED);
 		plastic3.onRestart(plastic2.getTailX() + PIPE_GAP, SCROLL_SPEED);

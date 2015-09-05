@@ -12,12 +12,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class AssetLoader {
 
 	public static Texture texture, logoTexture;
-	public static TextureRegion logo, bsLogo, bg, seaFloor, playButtonUp, playButtonDown;
+	public static TextureRegion logo, bsLogo, bg, seaFloor, seaSurface,
+			playButtonUp, playButtonDown;
 
 	public static Animation sharkAnimation;
 	public static TextureRegion shark, sharkDown, sharkUp;
 
-	public static TextureRegion skullUp, skullDown, plastic, bomb;
+	public static TextureRegion plastic;
 
 	public static Sound dead, flap, coin;
 	public static BitmapFont font, shadow;
@@ -27,26 +28,29 @@ public class AssetLoader {
 	public static void load() {
 
 		logoTexture = new Texture(Gdx.files.internal("data/logo.png"));
-        logoTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		logoTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 
-        logo = new TextureRegion(logoTexture, 0, 0, 512, 114);
-        
+		logo = new TextureRegion(logoTexture, 0, 0, 512, 114);
+
 		texture = new Texture(Gdx.files.internal("data/texture.png"));
 		texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 
 		playButtonUp = new TextureRegion(texture, 0, 83, 29, 16);
-        playButtonDown = new TextureRegion(texture, 29, 83, 29, 16);
-        playButtonUp.flip(false, true);
-        playButtonDown.flip(false, true);
+		playButtonDown = new TextureRegion(texture, 29, 83, 29, 16);
+		playButtonUp.flip(false, true);
+		playButtonDown.flip(false, true);
 
-        bsLogo = new TextureRegion(texture, 0, 55, 135, 24);
-        bsLogo.flip(false, true);
-        
+		bsLogo = new TextureRegion(texture, 0, 55, 135, 24);
+		bsLogo.flip(false, true);
+
 		bg = new TextureRegion(texture, 0, 0, 136, 43);
 		bg.flip(false, true);
 
 		seaFloor = new TextureRegion(texture, 0, 43, 143, 11);
 		seaFloor.flip(false, true);
+
+		seaSurface = new TextureRegion(texture, 0, 106, 143, 12);
+		seaSurface.flip(false, true);
 
 		sharkDown = new TextureRegion(texture, 136, 0, 20, 15);
 		sharkDown.flip(false, true);
@@ -61,16 +65,8 @@ public class AssetLoader {
 		sharkAnimation = new Animation(0.24f, sharks);
 		sharkAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
-		skullUp = new TextureRegion(texture, 192, 0, 24, 14);
-		// Create by flipping existing skullUp
-		skullDown = new TextureRegion(skullUp);
-		skullDown.flip(false, true);
-
 		plastic = new TextureRegion(texture, 136, 20, 24, 19);
 		plastic.flip(false, true);
-
-		// bomb = new TextureRegion(texture, 136, 55, 9, 11);
-		// bomb.flip(false, true);
 
 		dead = Gdx.audio.newSound(Gdx.files.internal("data/dead.wav"));
 		flap = Gdx.audio.newSound(Gdx.files.internal("data/flap.wav"));
@@ -99,16 +95,16 @@ public class AssetLoader {
 		font.dispose();
 		shadow.dispose();
 	}
-	
+
 	// Receives an integer and maps it to the String highScore in prefs
 	public static void setHighScore(int val) {
-	    prefs.putInteger("highScore", val);
-	    prefs.flush();
+		prefs.putInteger("highScore", val);
+		prefs.flush();
 	}
 
 	// Retrieves the current high score
 	public static int getHighScore() {
-	    return prefs.getInteger("highScore");
+		return prefs.getInteger("highScore");
 	}
 
 }

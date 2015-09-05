@@ -21,10 +21,7 @@ public class InputHandler implements InputProcessor {
 	private float scaleFactorX;
 	private float scaleFactorY;
 
-	// Ask for a reference to the Bird when InputHandler is created.
-	public InputHandler(GameWorld myWorld, float scaleFactorX,
-			float scaleFactorY) {
-		// myBird now represents the gameWorld's bird.
+	public InputHandler(GameWorld myWorld, float scaleFactorX, float scaleFactorY) {
 		this.myWorld = myWorld;
 		myShark = myWorld.getShark();
 
@@ -43,7 +40,6 @@ public class InputHandler implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
 		screenX = scaleX(screenX);
 		screenY = scaleY(screenY);
 		System.out.println(screenX + " " + screenY);
