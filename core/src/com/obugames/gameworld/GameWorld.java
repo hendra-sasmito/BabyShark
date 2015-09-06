@@ -20,6 +20,7 @@ public class GameWorld {
 	private float runTime = 0;
 	private GameState currentState;
 	private int midPointY;
+	private GameRenderer renderer;
 
 	public GameWorld(int midPointY) {
 		currentState = GameState.MENU;
@@ -68,11 +69,19 @@ public class GameWorld {
 			scroller.stop();
 			shark.die();
 			AssetLoader.dead.play();
+			renderer.prepareTransition(255, 255, 255, .3f);
+
+			AssetLoader.fall.play();
 		}
 
 		if (Intersector.overlaps(shark.getBoundingCircle(), ground)) {
+			if (shark.isAlive()) {
+				AssetLoader.dead.play();
+				renderer.prepareTransition(255, 255, 255, .3f);
+
+				shark.die();
+			}
             scroller.stop();
-            shark.die();
             shark.decelerate();
             currentState = GameState.GAMEOVER;
             
@@ -92,17 +101,20 @@ public class GameWorld {
     }
 
     public void restart() {
-        currentState = GameState.READY;
         score = 0;
         shark.onRestart(midPointY - 5);
         scroller.onRestart();
-        currentState = GameState.READY;
+        ready();
     }
 
     public boolean isGameOver() {
         return currentState == GameState.GAMEOVER;
     }
 
+	public void setRenderer(GameRenderer renderer) {
+		this.renderer = renderer;
+	}
+	
 	public Shark getShark() {
 		return shark;
 
@@ -134,6 +146,7 @@ public class GameWorld {
 	
 	public void ready() {
         currentState = GameState.READY;
+        renderer.prepareTransition(0, 0, 0, 1f);
     }
 	
 	public int getMidPointY() {

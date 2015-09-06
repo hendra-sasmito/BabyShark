@@ -13,15 +13,16 @@ public class AssetLoader {
 
 	public static Texture texture, logoTexture;
 	public static TextureRegion logo, bsLogo, bg, seaFloor, seaSurface,
-			playButtonUp, playButtonDown;
+			playButtonUp, playButtonDown, ready, gameOver, highScore,
+			scoreboard, star, noStar, retry;;
 
 	public static Animation sharkAnimation;
 	public static TextureRegion shark, sharkDown, sharkUp;
 
 	public static TextureRegion plastic, oil;
 
-	public static Sound dead, flap, coin;
-	public static BitmapFont font, shadow;
+	public static Sound dead, flap, coin, fall;
+	public static BitmapFont font, shadow, whiteFont;
 
 	public static Preferences prefs;
 
@@ -39,6 +40,27 @@ public class AssetLoader {
 		playButtonDown = new TextureRegion(texture, 29, 83, 29, 16);
 		playButtonUp.flip(false, true);
 		playButtonDown.flip(false, true);
+
+		ready = new TextureRegion(texture, 201, 0, 34, 7);
+		ready.flip(false, true);
+
+		retry = new TextureRegion(texture, 201, 27, 33, 7);
+		retry.flip(false, true);
+
+		gameOver = new TextureRegion(texture, 201, 9, 46, 7);
+		gameOver.flip(false, true);
+
+		scoreboard = new TextureRegion(texture, 149, 60, 97, 37);
+		scoreboard.flip(false, true);
+
+		star = new TextureRegion(texture, 189, 44, 10, 10);
+		noStar = new TextureRegion(texture, 202, 44, 10, 10);
+
+		star.flip(false, true);
+		noStar.flip(false, true);
+
+		highScore = new TextureRegion(texture, 201, 18, 48, 7);
+		highScore.flip(false, true);
 
 		bsLogo = new TextureRegion(texture, 0, 55, 135, 24);
 		bsLogo.flip(false, true);
@@ -67,16 +89,21 @@ public class AssetLoader {
 
 		plastic = new TextureRegion(texture, 136, 20, 24, 19);
 		plastic.flip(false, true);
-		
+
 		oil = new TextureRegion(texture, 68, 84, 69, 12);
 		plastic.flip(false, true);
 
 		dead = Gdx.audio.newSound(Gdx.files.internal("data/dead.wav"));
 		flap = Gdx.audio.newSound(Gdx.files.internal("data/flap.wav"));
 		coin = Gdx.audio.newSound(Gdx.files.internal("data/coin.wav"));
+		fall = Gdx.audio.newSound(Gdx.files.internal("data/fall.wav"));
 
 		font = new BitmapFont(Gdx.files.internal("data/text.fnt"));
 		font.getData().setScale(.25f, -.25f);
+
+		whiteFont = new BitmapFont(Gdx.files.internal("data/whitetext.fnt"));
+		whiteFont.getData().setScale(.1f, -.1f);
+
 		shadow = new BitmapFont(Gdx.files.internal("data/shadow.fnt"));
 		shadow.getData().setScale(.25f, -.25f);
 

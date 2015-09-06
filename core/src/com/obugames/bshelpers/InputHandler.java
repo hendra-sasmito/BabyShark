@@ -47,10 +47,11 @@ public class InputHandler implements InputProcessor {
 			playButton.isTouchDown(screenX, screenY);
 		} else if (myWorld.isReady()) {
 			myWorld.start();
+			myShark.onClick();
+		} else if (myWorld.isRunning()) {
+			myShark.onClick();
 		}
-
-		myShark.onClick();
-
+		
 		if (myWorld.isGameOver() || myWorld.isHighScore()) {
 			// Reset all variables, go to GameState.READ
 			myWorld.restart();
