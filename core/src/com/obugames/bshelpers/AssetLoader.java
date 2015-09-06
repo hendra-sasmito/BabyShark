@@ -18,7 +18,7 @@ public class AssetLoader {
 	public static Animation sharkAnimation;
 	public static TextureRegion shark, sharkDown, sharkUp;
 
-	public static TextureRegion plastic;
+	public static TextureRegion plastic, oil;
 
 	public static Sound dead, flap, coin;
 	public static BitmapFont font, shadow;
@@ -66,6 +66,9 @@ public class AssetLoader {
 		sharkAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
 		plastic = new TextureRegion(texture, 136, 20, 24, 19);
+		plastic.flip(false, true);
+		
+		oil = new TextureRegion(texture, 68, 84, 69, 12);
 		plastic.flip(false, true);
 
 		dead = Gdx.audio.newSound(Gdx.files.internal("data/dead.wav"));

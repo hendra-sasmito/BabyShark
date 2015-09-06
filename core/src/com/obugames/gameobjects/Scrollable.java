@@ -46,6 +46,10 @@ public class Scrollable {
     public float getTailX() {
         return position.x + width;
     }
+    
+    public float getTailY() {
+        return position.y + height;
+    }
 
     public float getX() {
         return position.x;

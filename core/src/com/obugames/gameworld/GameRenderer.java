@@ -19,6 +19,7 @@ import com.obugames.TweenAccessors.Value;
 import com.obugames.TweenAccessors.ValueAccessor;
 import com.obugames.bshelpers.AssetLoader;
 import com.obugames.bshelpers.InputHandler;
+import com.obugames.gameobjects.Oil;
 import com.obugames.gameobjects.Plastic;
 import com.obugames.gameobjects.ScrollHandler;
 import com.obugames.gameobjects.SeaFloor;
@@ -43,12 +44,13 @@ public class GameRenderer {
 	private SeaFloor frontSeaFloor, backSeaFloor;
 	private SeaSurface frontSeaSurface, backSeaSurface;
 	private Plastic plastic1, plastic2, plastic3, plastic4, plastic5, plastic6;
+	private Oil oil1;
 
 	// Game Assets
 	private TextureRegion bg, seaFloor, seaSurface;
 	private Animation sharkAnimation;
 	private TextureRegion sharkMid, sharkDown, sharkUp;
-	private TextureRegion plastic;
+	private TextureRegion plastic, oil;
 
 	// Tween stuff
 	private TweenManager manager;
@@ -114,8 +116,8 @@ public class GameRenderer {
 		// End ShapeRenderer
 		shapeRenderer.end();
 
-		drawDebugCollision();
 		
+
 		// Begin SpriteBatch
 		batcher.begin();
 		// Disable transparency
@@ -134,6 +136,8 @@ public class GameRenderer {
 
 		// Draw Plastics
 		drawPlastics();
+		
+		drawOil();
 
 		if (myWorld.isRunning()) {
 			drawShark(runTime);
@@ -151,11 +155,13 @@ public class GameRenderer {
 			drawShark(runTime);
 			drawScore();
 		}
-		
+
 		batcher.end();
+		
+//		drawDebugCollision();
+		
 		drawTransition(delta);
-		
-		
+
 	}
 
 	private void drawSharkCentered(float runTime) {
@@ -178,7 +184,7 @@ public class GameRenderer {
 					shark.getHeight() / 2.0f, shark.getWidth(),
 					shark.getHeight(), 1, 1, shark.getRotation());
 		}
-		
+
 	}
 
 	private void initGameObjects() {
@@ -194,6 +200,7 @@ public class GameRenderer {
 		plastic4 = scroller.getPlastic4();
 		plastic5 = scroller.getPlastic5();
 		plastic6 = scroller.getPlastic6();
+		oil1 = scroller.getOil1();
 	}
 
 	private void initAssets() {
@@ -205,6 +212,7 @@ public class GameRenderer {
 		sharkDown = AssetLoader.sharkDown;
 		sharkUp = AssetLoader.sharkUp;
 		plastic = AssetLoader.plastic;
+		oil = AssetLoader.oil;
 	}
 
 	private void drawSeaFloor() {
@@ -221,45 +229,74 @@ public class GameRenderer {
 		batcher.draw(seaSurface, backSeaSurface.getX(), backSeaSurface.getY(),
 				backSeaSurface.getWidth(), backSeaSurface.getHeight());
 	}
+	
+	private void drawOil() {
+		batcher.draw(oil, oil1.getX(), oil1.getY(),
+				oil1.getWidth(), oil1.getHeight());
+	}
 
 	private void drawPlastics() {
 		// Temporary code! Sorry about the mess :)
 		// We will fix this when we finish the Pipe class.
 		batcher.draw(plastic, plastic1.getX(), plastic1.getY(),
 				plastic1.getWidth() / 2.0f, plastic1.getHeight() / 2.0f,
-				plastic1.getWidth(), plastic1.getHeight(), 1, 1, plastic1.getRotation());
+				plastic1.getWidth(), plastic1.getHeight(), 1, 1,
+				plastic1.getRotation());
 
-		// batcher.draw(plastic, plastic1.getX(),
-		// plastic1.getY() + plastic1.getHeight() + 45,
-		// plastic1.getWidth(), plastic1.getHeight());
+//		batcher.draw(plastic, plastic1.getX(), plastic1.getY() + 65,
+//				plastic1.getWidth() / 2.0f, plastic1.getHeight() / 2.0f,
+//				plastic1.getWidth(), plastic1.getHeight(), 1, 1,
+//				plastic1.getRotation());
 
 		batcher.draw(plastic, plastic2.getX(), plastic2.getY(),
 				plastic2.getWidth() / 2.0f, plastic2.getHeight() / 2.0f,
-				plastic2.getWidth(), plastic2.getHeight(), 1, 1, plastic2.getRotation());
+				plastic2.getWidth(), plastic2.getHeight(), 1, 1,
+				plastic2.getRotation());
 
-		// batcher.draw(plastic, plastic2.getX(),
-		// plastic2.getY() + plastic2.getHeight() + 45,
-		// plastic2.getWidth(), plastic2.getHeight());
+//		batcher.draw(plastic, plastic2.getX(), plastic2.getY() + 65,
+//				plastic2.getWidth() / 2.0f, plastic2.getHeight() / 2.0f,
+//				plastic2.getWidth(), plastic2.getHeight(), 1, 1,
+//				plastic2.getRotation());
 
 		batcher.draw(plastic, plastic3.getX(), plastic3.getY(),
 				plastic3.getWidth() / 2.0f, plastic3.getHeight() / 2.0f,
-				plastic3.getWidth(), plastic3.getHeight(), 1, 1, plastic3.getRotation());
+				plastic3.getWidth(), plastic3.getHeight(), 1, 1,
+				plastic3.getRotation());
 
-		// batcher.draw(plastic, plastic3.getX(),
-		// plastic3.getY() + plastic3.getHeight() + 45,
-		// plastic3.getWidth(), plastic3.getHeight());
+//		batcher.draw(plastic, plastic3.getX(), plastic3.getY() + 65,
+//				plastic3.getWidth() / 2.0f, plastic3.getHeight() / 2.0f,
+//				plastic3.getWidth(), plastic3.getHeight(), 1, 1,
+//				plastic3.getRotation());
 
 		batcher.draw(plastic, plastic4.getX(), plastic4.getY(),
 				plastic4.getWidth() / 2.0f, plastic4.getHeight() / 2.0f,
-				plastic4.getWidth(), plastic4.getHeight(), 1, 1, plastic4.getRotation());
+				plastic4.getWidth(), plastic4.getHeight(), 1, 1,
+				plastic4.getRotation());
+		
+//		batcher.draw(plastic, plastic4.getX(), plastic4.getY() + 65,
+//				plastic4.getWidth() / 2.0f, plastic4.getHeight() / 2.0f,
+//				plastic4.getWidth(), plastic4.getHeight(), 1, 1,
+//				plastic4.getRotation());
 
 		batcher.draw(plastic, plastic5.getX(), plastic5.getY(),
 				plastic5.getWidth() / 2.0f, plastic5.getHeight() / 2.0f,
-				plastic5.getWidth(), plastic5.getHeight(), 1, 1, plastic5.getRotation());
+				plastic5.getWidth(), plastic5.getHeight(), 1, 1,
+				plastic5.getRotation());
 		
+//		batcher.draw(plastic, plastic5.getX(), plastic5.getY() + 65,
+//				plastic5.getWidth() / 2.0f, plastic5.getHeight() / 2.0f,
+//				plastic5.getWidth(), plastic5.getHeight(), 1, 1,
+//				plastic5.getRotation());
+
 		batcher.draw(plastic, plastic6.getX(), plastic6.getY(),
 				plastic6.getWidth() / 2.0f, plastic6.getHeight() / 2.0f,
-				plastic6.getWidth(), plastic6.getHeight(), 1, 1, plastic6.getRotation());
+				plastic6.getWidth(), plastic6.getHeight(), 1, 1,
+				plastic6.getRotation());
+		
+//		batcher.draw(plastic, plastic6.getX(), plastic6.getY() + 65,
+//				plastic6.getWidth() / 2.0f, plastic6.getHeight() / 2.0f,
+//				plastic6.getWidth(), plastic6.getHeight(), 1, 1,
+//				plastic6.getRotation());
 
 	}
 
@@ -295,41 +332,61 @@ public class GameRenderer {
 
 		}
 	}
-	
+
 	private void drawDebugCollision() {
 		shapeRenderer.begin(ShapeType.Filled);
 		shapeRenderer.setColor(Color.RED);
-		shapeRenderer.circle(shark.getBoundingCircle().x, shark.getBoundingCircle().y, shark.getBoundingCircle().radius);
+		shapeRenderer.circle(shark.getBoundingCircle().x,
+				shark.getBoundingCircle().y, shark.getBoundingCircle().radius);
 		shapeRenderer.end();
-		
+
 		shapeRenderer.begin(ShapeType.Filled);
 		shapeRenderer.setColor(Color.CYAN);
-		shapeRenderer.circle(plastic1.getBoundingCircle().x, plastic1.getBoundingCircle().y, plastic1.getBoundingCircle().radius);
+		shapeRenderer.circle(plastic1.getBoundingCircle().x,
+				plastic1.getBoundingCircle().y,
+				plastic1.getBoundingCircle().radius);
 		shapeRenderer.end();
-		
+
 		shapeRenderer.begin(ShapeType.Filled);
 		shapeRenderer.setColor(Color.LIGHT_GRAY);
-		shapeRenderer.circle(plastic2.getBoundingCircle().x, plastic2.getBoundingCircle().y, plastic2.getBoundingCircle().radius);
+		shapeRenderer.circle(plastic2.getBoundingCircle().x,
+				plastic2.getBoundingCircle().y,
+				plastic2.getBoundingCircle().radius);
 		shapeRenderer.end();
-		
+
 		shapeRenderer.begin(ShapeType.Filled);
 		shapeRenderer.setColor(Color.MAGENTA);
-		shapeRenderer.circle(plastic3.getBoundingCircle().x, plastic3.getBoundingCircle().y, plastic3.getBoundingCircle().radius);
+		shapeRenderer.circle(plastic3.getBoundingCircle().x,
+				plastic3.getBoundingCircle().y,
+				plastic3.getBoundingCircle().radius);
 		shapeRenderer.end();
-		
+
 		shapeRenderer.begin(ShapeType.Filled);
 		shapeRenderer.setColor(Color.MAROON);
-		shapeRenderer.circle(plastic4.getBoundingCircle().x, plastic4.getBoundingCircle().y, plastic4.getBoundingCircle().radius);
+		shapeRenderer.circle(plastic4.getBoundingCircle().x,
+				plastic4.getBoundingCircle().y,
+				plastic4.getBoundingCircle().radius);
 		shapeRenderer.end();
-		
+
 		shapeRenderer.begin(ShapeType.Filled);
 		shapeRenderer.setColor(Color.OLIVE);
-		shapeRenderer.circle(plastic5.getBoundingCircle().x, plastic5.getBoundingCircle().y, plastic5.getBoundingCircle().radius);
+		shapeRenderer.circle(plastic5.getBoundingCircle().x,
+				plastic5.getBoundingCircle().y,
+				plastic5.getBoundingCircle().radius);
+		shapeRenderer.end();
+
+		shapeRenderer.begin(ShapeType.Filled);
+		shapeRenderer.setColor(Color.ORANGE);
+		shapeRenderer.circle(plastic6.getBoundingCircle().x,
+				plastic6.getBoundingCircle().y,
+				plastic6.getBoundingCircle().radius);
 		shapeRenderer.end();
 		
 		shapeRenderer.begin(ShapeType.Filled);
-		shapeRenderer.setColor(Color.ORANGE);
-		shapeRenderer.circle(plastic6.getBoundingCircle().x, plastic6.getBoundingCircle().y, plastic6.getBoundingCircle().radius);
+		shapeRenderer.setColor(Color.BLUE);
+		shapeRenderer.rect(oil1.getBoundingRect().x,
+				oil1.getBoundingRect().y,
+				oil1.getBoundingRect().width, oil1.getBoundingRect().height);
 		shapeRenderer.end();
 	}
 

@@ -1,5 +1,7 @@
 package com.obugames.gameobjects;
 
+import java.util.Random;
+
 import com.obugames.bshelpers.AssetLoader;
 import com.obugames.gameworld.GameWorld;
 
@@ -9,6 +11,8 @@ public class ScrollHandler {
 	private SeaFloor frontSeaFloor, backSeaFloor;
 	private SeaSurface frontSeaSurface, backSeaSurface;
 	private Plastic plastic1, plastic2, plastic3, plastic4, plastic5, plastic6;
+	private Oil oil1;
+	private Random r;
 
 	// ScrollHandler will use the constants below to determine
 	// how fast we need to scroll and also determine
@@ -26,6 +30,7 @@ public class ScrollHandler {
 	// Grass and Pipe objects.
 	public ScrollHandler(GameWorld gameWorld, float yPos) {
 		this.gameWorld = gameWorld;
+		r = new Random();
 		frontSeaFloor = new SeaFloor(0, yPos, 143, 11, SCROLL_SPEED);
 		backSeaFloor = new SeaFloor(frontSeaFloor.getTailX(), yPos, 143, 11,
 				SCROLL_SPEED);
@@ -35,16 +40,18 @@ public class ScrollHandler {
 				SCROLL_SPEED);
 
 		plastic1 = new Plastic(210, 10, 24, 19, SCROLL_SPEED, yPos);
-		plastic2 = new Plastic(plastic1.getTailX() + PLASTIC_GAP / DIVIDER, 0, 24, 19,
+		plastic2 = new Plastic(plastic1.getTailX() + PLASTIC_GAP / DIVIDER, r.nextInt(100), 24, 19,
 				SCROLL_SPEED, yPos);
-		plastic3 = new Plastic(plastic2.getTailX() + PLASTIC_GAP / DIVIDER, 0, 24, 19,
+		plastic3 = new Plastic(plastic2.getTailX() + PLASTIC_GAP / DIVIDER, r.nextInt(100), 24, 19,
 				SCROLL_SPEED, yPos);
-		plastic4 = new Plastic(plastic3.getTailX() + PLASTIC_GAP / DIVIDER, 0, 24, 19,
+		plastic4 = new Plastic(plastic3.getTailX() + PLASTIC_GAP / DIVIDER, r.nextInt(100), 24, 19,
 				SCROLL_SPEED, yPos);
-		plastic5 = new Plastic(plastic4.getTailX() + PLASTIC_GAP / DIVIDER, 0, 24, 19,
+		plastic5 = new Plastic(plastic4.getTailX() + PLASTIC_GAP / DIVIDER, r.nextInt(100), 24, 19,
 				SCROLL_SPEED, yPos);
-		plastic6 = new Plastic(plastic5.getTailX() + PLASTIC_GAP / DIVIDER, 0, 24, 19,
+		plastic6 = new Plastic(plastic5.getTailX() + PLASTIC_GAP / DIVIDER, r.nextInt(100), 24, 19,
 				SCROLL_SPEED, yPos);
+		
+		oil1 = new Oil(210, 0, 69, 12, SCROLL_SPEED);
 
 	}
 
@@ -86,7 +93,11 @@ public class ScrollHandler {
 		plastic4.update(delta);
 		plastic5.update(delta);
 		plastic6.update(delta);
+		oil1.update(delta);
 
+		if (oil1.isScrolledLeft()) {
+			oil1.reset(210);
+		}
 		// Check if any of the pipes are scrolled left,
 		// and reset accordingly
 		if (plastic1.isScrolledLeft()) {
@@ -132,10 +143,19 @@ public class ScrollHandler {
 		plastic4.stop();
 		plastic5.stop();
 		plastic6.stop();
+		oil1.stop();
 	}
 
 	public boolean collides(Shark shark) {
 
+		/*if (!oil1.isScored()
+				&& oil1.getX() + (oil1.getWidth() / 2) < shark.getX()
+						+ shark.getWidth()) {
+			addScore(1);
+			oil1.setScored(true);
+			AssetLoader.coin.play();
+		}*/
+		
 		if (!plastic1.isScored()
 				&& plastic1.getX() + (plastic1.getWidth() / 2) < shark.getX()
 						+ shark.getWidth()) {
@@ -181,7 +201,7 @@ public class ScrollHandler {
 
 		return (plastic1.collides(shark) || plastic2.collides(shark)
 				|| plastic3.collides(shark) || plastic4.collides(shark) || plastic5
-					.collides(shark) || plastic6.collides(shark));
+					.collides(shark) || plastic6.collides(shark) || oil1.collides(shark));
 	}
 
 	public SeaFloor getFrontSeaFloor() {
@@ -223,6 +243,10 @@ public class ScrollHandler {
 	public Plastic getPlastic6() {
 		return plastic6;
 	}
+	
+	public Oil getOil1() {
+		return oil1;
+	}
 
 	private void addScore(int increment) {
 		gameWorld.addScore(increment);
@@ -239,5 +263,6 @@ public class ScrollHandler {
 		plastic4.onRestart(plastic3.getTailX() + PLASTIC_GAP / DIVIDER, SCROLL_SPEED);
 		plastic5.onRestart(plastic4.getTailX() + PLASTIC_GAP / DIVIDER, SCROLL_SPEED);
 		plastic6.onRestart(plastic5.getTailX() + PLASTIC_GAP / DIVIDER, SCROLL_SPEED);
+		oil1.onRestart(210, SCROLL_SPEED);
 	}
 }
