@@ -65,7 +65,7 @@ public class AssetLoader {
 		bsLogo = new TextureRegion(texture, 0, 55, 135, 24);
 		bsLogo.flip(false, true);
 
-		bg = new TextureRegion(texture, 0, 0, 136, 43);
+		bg = new TextureRegion(texture, 0, 0, 134, 43);
 		bg.flip(false, true);
 
 		seaFloor = new TextureRegion(texture, 0, 43, 143, 11);

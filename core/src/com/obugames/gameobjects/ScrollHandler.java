@@ -10,6 +10,7 @@ public class ScrollHandler {
 	// ScrollHandler will create all five objects that we need.
 	private SeaFloor frontSeaFloor, backSeaFloor;
 	private SeaSurface frontSeaSurface, backSeaSurface;
+	private Background frontBg, backBg;
 	private Plastic plastic1, plastic2, plastic3, plastic4, plastic5, plastic6;
 	private Oil oil1;
 	private Random r;
@@ -31,6 +32,11 @@ public class ScrollHandler {
 	public ScrollHandler(GameWorld gameWorld, float yPos) {
 		this.gameWorld = gameWorld;
 		r = new Random();
+		
+		frontBg = new Background(0, yPos, 134, 43, SCROLL_SPEED);
+		backBg = new Background(frontBg.getTailX(), yPos, 134, 43,
+				SCROLL_SPEED);
+		
 		frontSeaFloor = new SeaFloor(0, yPos, 143, 11, SCROLL_SPEED);
 		backSeaFloor = new SeaFloor(frontSeaFloor.getTailX(), yPos, 143, 11,
 				SCROLL_SPEED);
@@ -57,6 +63,9 @@ public class ScrollHandler {
 
 	public void updateReady(float delta) {
 
+		frontBg.update(delta);
+		backBg.update(delta);
+		
 		frontSeaFloor.update(delta);
 		backSeaFloor.update(delta);
 
@@ -64,6 +73,15 @@ public class ScrollHandler {
 		backSeaSurface.update(delta);
 
 		// Same with grass
+		if (frontBg.isScrolledLeft()) {
+			frontBg.reset(backBg.getTailX());
+
+		} else if (backBg.isScrolledLeft()) {
+			backBg.reset(frontBg.getTailX());
+
+		}
+
+		
 		if (frontSeaFloor.isScrolledLeft()) {
 			frontSeaFloor.reset(backSeaFloor.getTailX());
 
@@ -83,6 +101,8 @@ public class ScrollHandler {
 
 	public void update(float delta) {
 		// Update our objects
+		frontBg.update(delta);
+		backBg.update(delta);
 		frontSeaFloor.update(delta);
 		backSeaFloor.update(delta);
 		frontSeaSurface.update(delta);
@@ -115,6 +135,14 @@ public class ScrollHandler {
 			plastic6.reset(plastic5.getTailX() + PLASTIC_GAP / DIVIDER);
 		}
 
+		if (frontBg.isScrolledLeft()) {
+			frontBg.reset(backBg.getTailX());
+
+		} else if (backBg.isScrolledLeft()) {
+			backBg.reset(frontBg.getTailX());
+
+		}
+		
 		if (frontSeaFloor.isScrolledLeft()) {
 			frontSeaFloor.reset(backSeaFloor.getTailX());
 
@@ -133,6 +161,8 @@ public class ScrollHandler {
 	}
 
 	public void stop() {
+		frontBg.stop();
+		backBg.stop();
 		frontSeaFloor.stop();
 		backSeaFloor.stop();
 		frontSeaSurface.stop();
@@ -204,6 +234,14 @@ public class ScrollHandler {
 					.collides(shark) || plastic6.collides(shark) || oil1.collides(shark));
 	}
 
+	public Background getFrontBackground() {
+		return frontBg;
+	}
+	
+	public Background getBackBackground() {
+		return backBg;
+	}
+	
 	public SeaFloor getFrontSeaFloor() {
 		return frontSeaFloor;
 	}
@@ -253,6 +291,8 @@ public class ScrollHandler {
 	}
 
 	public void onRestart() {
+		frontBg.onRestart(0, SCROLL_SPEED);
+		backBg.onRestart(frontBg.getTailX(), SCROLL_SPEED);
 		frontSeaFloor.onRestart(0, SCROLL_SPEED);
 		backSeaFloor.onRestart(frontSeaFloor.getTailX(), SCROLL_SPEED);
 		frontSeaSurface.onRestart(0, SCROLL_SPEED);

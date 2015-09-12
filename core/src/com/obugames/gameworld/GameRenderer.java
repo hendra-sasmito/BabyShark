@@ -19,6 +19,7 @@ import com.obugames.TweenAccessors.Value;
 import com.obugames.TweenAccessors.ValueAccessor;
 import com.obugames.bshelpers.AssetLoader;
 import com.obugames.bshelpers.InputHandler;
+import com.obugames.gameobjects.Background;
 import com.obugames.gameobjects.Oil;
 import com.obugames.gameobjects.Plastic;
 import com.obugames.gameobjects.ScrollHandler;
@@ -42,12 +43,13 @@ public class GameRenderer {
 	private Shark shark;
 	private ScrollHandler scroller;
 	private SeaFloor frontSeaFloor, backSeaFloor;
+	private Background frontBg, backBg;
 	private SeaSurface frontSeaSurface, backSeaSurface;
 	private Plastic plastic1, plastic2, plastic3, plastic4, plastic5, plastic6;
 	private Oil oil1;
 
 	// Game Assets
-	private TextureRegion bg, seaFloor, seaSurface;
+	private TextureRegion seaFloor, seaSurface, background;
 	private Animation sharkAnimation;
 	private TextureRegion sharkMid, sharkDown, sharkUp;
 	private TextureRegion plastic, oil, ready, bsLogo, gameOver, highScore,
@@ -127,8 +129,9 @@ public class GameRenderer {
 		// This is good for performance when drawing images that do not require
 		// transparency.
 		batcher.disableBlending();
-		batcher.draw(bg, 0, midPointY + 23, 136, 43);
+		//batcher.draw(bg, 0, midPointY + 23, 136, 43);
 
+		drawBackground(midPointY + 23);
 
 		drawSeaSurface();
 
@@ -205,6 +208,8 @@ public class GameRenderer {
 	private void initGameObjects() {
 		shark = myWorld.getShark();
 		scroller = myWorld.getScroller();
+		frontBg = scroller.getFrontBackground();
+		backBg = scroller.getBackBackground();
 		frontSeaFloor = scroller.getFrontSeaFloor();
 		backSeaFloor = scroller.getBackSeaFloor();
 		frontSeaSurface = scroller.getFrontSeaSurface();
@@ -219,7 +224,7 @@ public class GameRenderer {
 	}
 
 	private void initAssets() {
-		bg = AssetLoader.bg;
+		background = AssetLoader.bg;
 		seaFloor = AssetLoader.seaFloor;
 		seaSurface = AssetLoader.seaSurface;
 		sharkAnimation = AssetLoader.sharkAnimation;
@@ -238,6 +243,14 @@ public class GameRenderer {
 		noStar = AssetLoader.noStar;
 	}
 
+	private void drawBackground(int ypos) {
+		batcher.draw(background, frontBg.getX(),
+				ypos, frontBg.getWidth(),
+				frontBg.getHeight());
+		batcher.draw(background, backBg.getX(), ypos,
+				backBg.getWidth(), backBg.getHeight());
+	}
+	
 	private void drawSeaFloor() {
 		batcher.draw(seaFloor, frontSeaFloor.getX(), frontSeaFloor.getY(),
 				frontSeaFloor.getWidth(), frontSeaFloor.getHeight());
