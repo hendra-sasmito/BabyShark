@@ -91,7 +91,7 @@ public class AssetLoader {
 		plastic.flip(false, true);
 
 		oil = new TextureRegion(texture, 68, 84, 69, 12);
-		plastic.flip(false, true);
+        oil.flip(false, true);
 
 		dead = Gdx.audio.newSound(Gdx.files.internal("data/dead.wav"));
 		flap = Gdx.audio.newSound(Gdx.files.internal("data/flap.wav"));

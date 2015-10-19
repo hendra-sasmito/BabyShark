@@ -9,7 +9,7 @@ import com.obugames.gameobjects.Shark;
 
 public class GameWorld {
 	public enum GameState {
-		MENU, READY, RUNNING, GAMEOVER, HIGHSCORE
+		MENU, READY, RUNNING, GAMEOVER, HIGHSCORE, EXIT
 	}
 
 	private Shark shark;
@@ -100,6 +100,10 @@ public class GameWorld {
         currentState = GameState.RUNNING;
     }
 
+    public void exit() {
+        currentState = GameState.EXIT;
+    }
+
     public void restart() {
         score = 0;
         shark.onRestart(midPointY - 5);
@@ -109,6 +113,10 @@ public class GameWorld {
 
     public boolean isGameOver() {
         return currentState == GameState.GAMEOVER;
+    }
+
+    public boolean isGameExit() {
+        return currentState == GameState.EXIT;
     }
 
 	public void setRenderer(GameRenderer renderer) {

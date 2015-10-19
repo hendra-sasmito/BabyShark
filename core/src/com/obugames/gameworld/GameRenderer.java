@@ -162,7 +162,9 @@ public class GameRenderer {
 			drawShark(runTime);
 			drawHighScore();
 			drawRetry();
-		}
+		} else if (myWorld.isGameExit()) {
+            drawExit();
+        }
 
 		drawSeaFloor();
 		batcher.end();
@@ -391,7 +393,13 @@ public class GameRenderer {
 	}
 
 	private void drawReady() {
-		batcher.draw(ready, 36, midPointY - 50, 68, 14);
+		batcher.draw(ready, 36, midPointY - 30, 68, 14);
+        batcher.draw(plastic, 18, midPointY - 60, 24, 19);
+        batcher.draw(oil, 54, midPointY - 60, 69, 12);
+        AssetLoader.shadow.draw(batcher, "Avoid plastic ", 10, 10);
+        AssetLoader.font.draw(batcher, "Avoid plastic ", 10, 10);
+        AssetLoader.shadow.draw(batcher, "and oil spill", 20, 30);
+        AssetLoader.font.draw(batcher, "and oil spill", 20, 30);
 	}
 
 	private void drawGameOver() {
@@ -424,6 +432,22 @@ public class GameRenderer {
 
 		}
 	}
+
+    private void drawExit() {
+        AssetLoader.shadow.draw(batcher, "Please keep ", 10, 10);
+        AssetLoader.font.draw(batcher, "Please keep ", 10, 10);
+        AssetLoader.shadow.draw(batcher, "our ocean", 10, 30);
+        AssetLoader.font.draw(batcher, "our ocean", 10, 30);
+        AssetLoader.shadow.draw(batcher, "clean.", 10, 50);
+        AssetLoader.font.draw(batcher, "clean.", 10, 50);
+        AssetLoader.shadow.draw(batcher, "For fishes", 10, 70);
+        AssetLoader.font.draw(batcher, "For fishes", 10, 70);
+        AssetLoader.shadow.draw(batcher, "and also us.", 10, 90);
+        AssetLoader.font.draw(batcher, "and also us.", 10, 90);
+
+        AssetLoader.shadow.draw(batcher, "Touch to exit", 10, 120);
+        AssetLoader.font.draw(batcher, "Touch to exit", 10, 120);
+    }
 
 	private void drawDebugCollision() {
 		shapeRenderer.begin(ShapeType.Filled);

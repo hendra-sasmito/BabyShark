@@ -8,6 +8,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.obugames.gameobjects.Shark;
 import com.obugames.gameworld.GameWorld;
 import com.obugames.ui.SimpleButton;
+import com.badlogic.gdx.Gdx;
 
 public class InputHandler implements InputProcessor {
 
@@ -57,6 +58,10 @@ public class InputHandler implements InputProcessor {
 			myWorld.restart();
 		}
 
+        if (myWorld.isGameExit()) {
+            Gdx.app.exit();
+        }
+
 		return true;
 	}
 
@@ -78,6 +83,9 @@ public class InputHandler implements InputProcessor {
 			}
 
 		}
+        if(keycode == Keys.BACK){
+            myWorld.exit();
+        }
 
 		return false;
 	}
