@@ -41,16 +41,16 @@ public class AssetLoader {
 		playButtonUp.flip(false, true);
 		playButtonDown.flip(false, true);
 
-		ready = new TextureRegion(texture, 201, 0, 34, 7);
+		ready = new TextureRegion(texture, 201, 0, 35, 7);
 		ready.flip(false, true);
 
-		retry = new TextureRegion(texture, 201, 27, 33, 7);
+		retry = new TextureRegion(texture, 201, 27, 34, 7);
 		retry.flip(false, true);
 
-		gameOver = new TextureRegion(texture, 201, 9, 46, 7);
+		gameOver = new TextureRegion(texture, 201, 9, 47, 7);
 		gameOver.flip(false, true);
 
-		scoreboard = new TextureRegion(texture, 149, 60, 97, 37);
+		scoreboard = new TextureRegion(texture, 149, 60, 98, 37);
 		scoreboard.flip(false, true);
 
 		star = new TextureRegion(texture, 189, 44, 10, 10);
@@ -74,13 +74,13 @@ public class AssetLoader {
 		seaSurface = new TextureRegion(texture, 0, 106, 143, 12);
 		seaSurface.flip(false, true);
 
-		sharkDown = new TextureRegion(texture, 136, 0, 20, 15);
+		sharkDown = new TextureRegion(texture, 135, 0, 22, 15);
 		sharkDown.flip(false, true);
 
-		shark = new TextureRegion(texture, 156, 0, 20, 15);
+		shark = new TextureRegion(texture, 157, 0, 22, 15);
 		shark.flip(false, true);
 
-		sharkUp = new TextureRegion(texture, 176, 0, 20, 15);
+		sharkUp = new TextureRegion(texture, 179, 0, 22, 15);
 		sharkUp.flip(false, true);
 
 		TextureRegion[] sharks = { sharkDown, shark, sharkUp };

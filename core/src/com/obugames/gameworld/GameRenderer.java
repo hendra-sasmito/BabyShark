@@ -396,10 +396,10 @@ public class GameRenderer {
 		batcher.draw(ready, 36, midPointY - 30, 68, 14);
         batcher.draw(plastic, 18, midPointY - 60, 24, 19);
         batcher.draw(oil, 54, midPointY - 60, 69, 12);
-        AssetLoader.shadow.draw(batcher, "Avoid plastic ", 10, 10);
-        AssetLoader.font.draw(batcher, "Avoid plastic ", 10, 10);
-        AssetLoader.shadow.draw(batcher, "and oil spill", 20, 30);
-        AssetLoader.font.draw(batcher, "and oil spill", 20, 30);
+        AssetLoader.shadow.draw(batcher, "Help to avoid", 5, 10);
+        AssetLoader.font.draw(batcher, "Help to avoid", 5, 10);
+        AssetLoader.shadow.draw(batcher, "plastic, oil spill", 5, 30);
+        AssetLoader.font.draw(batcher, "plastic, oil spill", 5, 30);
 	}
 
 	private void drawGameOver() {
@@ -434,19 +434,19 @@ public class GameRenderer {
 	}
 
     private void drawExit() {
-        AssetLoader.shadow.draw(batcher, "Please keep ", 10, 10);
-        AssetLoader.font.draw(batcher, "Please keep ", 10, 10);
-        AssetLoader.shadow.draw(batcher, "our ocean", 10, 30);
-        AssetLoader.font.draw(batcher, "our ocean", 10, 30);
-        AssetLoader.shadow.draw(batcher, "clean.", 10, 50);
-        AssetLoader.font.draw(batcher, "clean.", 10, 50);
-        AssetLoader.shadow.draw(batcher, "For fishes", 10, 70);
-        AssetLoader.font.draw(batcher, "For fishes", 10, 70);
-        AssetLoader.shadow.draw(batcher, "and also us.", 10, 90);
-        AssetLoader.font.draw(batcher, "and also us.", 10, 90);
+        AssetLoader.shadow.draw(batcher, "Please keep our", 10, 10);
+        AssetLoader.font.draw(batcher, "Please keep our", 10, 10);
+        AssetLoader.shadow.draw(batcher, "oceans clean.", 10, 30);
+        AssetLoader.font.draw(batcher, "oceans clean.", 10, 30);
+        AssetLoader.shadow.draw(batcher, "Trash and waste", 10, 50);
+        AssetLoader.font.draw(batcher, "Trash and waste", 10, 50);
+        AssetLoader.shadow.draw(batcher, "are hurting", 10, 70);
+        AssetLoader.font.draw(batcher, "are hurting", 10, 70);
+        AssetLoader.shadow.draw(batcher, "sea life.", 10, 90);
+        AssetLoader.font.draw(batcher, "sea life.", 10, 90);
 
-        AssetLoader.shadow.draw(batcher, "Touch to exit", 10, 120);
-        AssetLoader.font.draw(batcher, "Touch to exit", 10, 120);
+        AssetLoader.shadow.draw(batcher, "Tap to exit", 10, 150);
+        AssetLoader.font.draw(batcher, "Tap to exit", 10, 150);
     }
 
 	private void drawDebugCollision() {
