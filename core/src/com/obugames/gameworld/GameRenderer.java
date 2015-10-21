@@ -45,7 +45,7 @@ public class GameRenderer {
 	private SeaFloor frontSeaFloor, backSeaFloor;
 	private Background frontBg, backBg;
 	private SeaSurface frontSeaSurface, backSeaSurface;
-	private Plastic plastic1, plastic2, plastic3, plastic4, plastic5, plastic6;
+	private Plastic plastic1, plastic2, plastic3, plastic4, plastic5, plastic6, plastic7;
 	private Oil oil1;
 
 	// Game Assets
@@ -222,6 +222,7 @@ public class GameRenderer {
 		plastic4 = scroller.getPlastic4();
 		plastic5 = scroller.getPlastic5();
 		plastic6 = scroller.getPlastic6();
+        plastic7 = scroller.getPlastic7();
 		oil1 = scroller.getOil1();
 	}
 
@@ -336,7 +337,12 @@ public class GameRenderer {
 		// plastic6.getWidth(), plastic6.getHeight(), 1, 1,
 		// plastic6.getRotation());
 
-	}
+        batcher.draw(plastic, plastic7.getX(), plastic7.getY(),
+                plastic7.getWidth() / 2.0f, plastic7.getHeight() / 2.0f,
+                plastic7.getWidth(), plastic7.getHeight(), 1, 1,
+                plastic7.getRotation());
+
+    }
 
 	private void drawMenuUI() {
 		batcher.draw(bsLogo, 136 / 2 - 56, midPointY - 50,
@@ -497,6 +503,13 @@ public class GameRenderer {
 				plastic6.getBoundingCircle().y,
 				plastic6.getBoundingCircle().radius);
 		shapeRenderer.end();
+
+        shapeRenderer.begin(ShapeType.Filled);
+        shapeRenderer.setColor(Color.ORANGE);
+        shapeRenderer.circle(plastic7.getBoundingCircle().x,
+                plastic7.getBoundingCircle().y,
+                plastic7.getBoundingCircle().radius);
+        shapeRenderer.end();
 
 		shapeRenderer.begin(ShapeType.Filled);
 		shapeRenderer.setColor(Color.BLUE);

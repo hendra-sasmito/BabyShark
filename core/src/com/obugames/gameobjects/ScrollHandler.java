@@ -11,7 +11,7 @@ public class ScrollHandler {
 	private SeaFloor frontSeaFloor, backSeaFloor;
 	private SeaSurface frontSeaSurface, backSeaSurface;
 	private Background frontBg, backBg;
-	private Plastic plastic1, plastic2, plastic3, plastic4, plastic5, plastic6;
+	private Plastic plastic1, plastic2, plastic3, plastic4, plastic5, plastic6, plastic7;
 	private Oil oil1;
 	private Random r;
 
@@ -23,7 +23,7 @@ public class ScrollHandler {
 	public static final int SCROLL_SPEED = -59;
 	public static final int PLASTIC_GAP = 48;
 	
-	public static final int DIVIDER = 3;
+	public static final int DIVIDER = 4;
 
 	private GameWorld gameWorld;
 
@@ -46,16 +46,18 @@ public class ScrollHandler {
 				SCROLL_SPEED);
 
 		plastic1 = new Plastic(210, 10, 24, 19, SCROLL_SPEED, yPos);
-		plastic2 = new Plastic(plastic1.getTailX() + PLASTIC_GAP / DIVIDER, r.nextInt(100), 24, 19,
+		plastic2 = new Plastic(plastic1.getTailX() + PLASTIC_GAP / DIVIDER, r.nextInt(100 - 35) + 35, 24, 19,
 				SCROLL_SPEED, yPos);
-		plastic3 = new Plastic(plastic2.getTailX() + PLASTIC_GAP / DIVIDER, r.nextInt(100), 24, 19,
+		plastic3 = new Plastic(plastic2.getTailX() + PLASTIC_GAP / DIVIDER, r.nextInt(100 - 35) + 35, 24, 19,
 				SCROLL_SPEED, yPos);
-		plastic4 = new Plastic(plastic3.getTailX() + PLASTIC_GAP / DIVIDER, r.nextInt(100), 24, 19,
+		plastic4 = new Plastic(plastic3.getTailX() + PLASTIC_GAP / DIVIDER, r.nextInt(100 - 35) + 35, 24, 19,
 				SCROLL_SPEED, yPos);
-		plastic5 = new Plastic(plastic4.getTailX() + PLASTIC_GAP / DIVIDER, r.nextInt(100), 24, 19,
+		plastic5 = new Plastic(plastic4.getTailX() + PLASTIC_GAP / DIVIDER, r.nextInt(100 - 35) + 35, 24, 19,
 				SCROLL_SPEED, yPos);
-		plastic6 = new Plastic(plastic5.getTailX() + PLASTIC_GAP / DIVIDER, r.nextInt(100), 24, 19,
+		plastic6 = new Plastic(plastic5.getTailX() + PLASTIC_GAP / DIVIDER, r.nextInt(100 - 35) + 35, 24, 19,
 				SCROLL_SPEED, yPos);
+        plastic7 = new Plastic(plastic6.getTailX() + PLASTIC_GAP / DIVIDER, r.nextInt(100 - 35) + 35, 24, 19,
+                SCROLL_SPEED, yPos);
 		
 		oil1 = new Oil(210, 0, 69, 12, SCROLL_SPEED);
 
@@ -113,6 +115,7 @@ public class ScrollHandler {
 		plastic4.update(delta);
 		plastic5.update(delta);
 		plastic6.update(delta);
+        plastic7.update(delta);
 		oil1.update(delta);
 
 		if (oil1.isScrolledLeft()) {
@@ -121,7 +124,7 @@ public class ScrollHandler {
 		// Check if any of the pipes are scrolled left,
 		// and reset accordingly
 		if (plastic1.isScrolledLeft()) {
-			plastic1.reset(plastic6.getTailX() + PLASTIC_GAP / DIVIDER);
+			plastic1.reset(plastic7.getTailX() + PLASTIC_GAP / DIVIDER);
 		} else if (plastic2.isScrolledLeft()) {
 			plastic2.reset(plastic1.getTailX() + PLASTIC_GAP / DIVIDER);
 
@@ -133,7 +136,9 @@ public class ScrollHandler {
 			plastic5.reset(plastic4.getTailX() + PLASTIC_GAP / DIVIDER);
 		} else if (plastic6.isScrolledLeft()) {
 			plastic6.reset(plastic5.getTailX() + PLASTIC_GAP / DIVIDER);
-		}
+		} else if (plastic7.isScrolledLeft()) {
+            plastic7.reset(plastic6.getTailX() + PLASTIC_GAP / DIVIDER);
+        }
 
 		if (frontBg.isScrolledLeft()) {
 			frontBg.reset(backBg.getTailX());
@@ -173,6 +178,7 @@ public class ScrollHandler {
 		plastic4.stop();
 		plastic5.stop();
 		plastic6.stop();
+        plastic7.stop();
 		oil1.stop();
 	}
 
@@ -227,11 +233,19 @@ public class ScrollHandler {
 			plastic6.setScored(true);
 			AssetLoader.coin.play();
 
-		}
+		} else if (!plastic7.isScored()
+                && plastic7.getX() + (plastic7.getWidth() / 2) < shark.getX()
+                + shark.getWidth()) {
+            addScore(1);
+            plastic7.setScored(true);
+            AssetLoader.coin.play();
+
+        }
 
 		return (plastic1.collides(shark) || plastic2.collides(shark)
-				|| plastic3.collides(shark) || plastic4.collides(shark) || plastic5
-					.collides(shark) || plastic6.collides(shark) || oil1.collides(shark));
+				|| plastic3.collides(shark) || plastic4.collides(shark) || plastic5.collides(shark)
+                || plastic6.collides(shark) || plastic7.collides(shark)
+                || oil1.collides(shark));
 	}
 
 	public Background getFrontBackground() {
@@ -281,6 +295,10 @@ public class ScrollHandler {
 	public Plastic getPlastic6() {
 		return plastic6;
 	}
+
+    public Plastic getPlastic7() {
+        return plastic7;
+    }
 	
 	public Oil getOil1() {
 		return oil1;
@@ -303,6 +321,7 @@ public class ScrollHandler {
 		plastic4.onRestart(plastic3.getTailX() + PLASTIC_GAP / DIVIDER, SCROLL_SPEED);
 		plastic5.onRestart(plastic4.getTailX() + PLASTIC_GAP / DIVIDER, SCROLL_SPEED);
 		plastic6.onRestart(plastic5.getTailX() + PLASTIC_GAP / DIVIDER, SCROLL_SPEED);
+        plastic7.onRestart(plastic6.getTailX() + PLASTIC_GAP / DIVIDER, SCROLL_SPEED);
 		oil1.onRestart(210, SCROLL_SPEED);
 	}
 }
