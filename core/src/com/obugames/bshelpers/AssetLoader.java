@@ -36,8 +36,8 @@ public class AssetLoader {
 		texture = new Texture(Gdx.files.internal("data/texture.png"));
 		texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 
-		playButtonUp = new TextureRegion(texture, 177, 98, 34, 26);
-		playButtonDown = new TextureRegion(texture, 211, 98, 34, 26);
+		playButtonUp = new TextureRegion(texture, 168, 93, 85, 17);
+		playButtonDown = new TextureRegion(texture, 168, 110, 85, 17);
 		playButtonUp.flip(false, true);
 		playButtonDown.flip(false, true);
 
@@ -50,11 +50,11 @@ public class AssetLoader {
 		gameOver = new TextureRegion(texture, 201, 9, 47, 7);
 		gameOver.flip(false, true);
 
-		scoreboard = new TextureRegion(texture, 149, 60, 98, 37);
+		scoreboard = new TextureRegion(texture, 149, 56, 98, 37);
 		scoreboard.flip(false, true);
 
-		star = new TextureRegion(texture, 189, 44, 10, 10);
-		noStar = new TextureRegion(texture, 202, 44, 10, 10);
+		star = new TextureRegion(texture, 189, 44, 11, 10);
+		noStar = new TextureRegion(texture, 202, 44, 11, 10);
 
 		star.flip(false, true);
 		noStar.flip(false, true);
@@ -62,7 +62,7 @@ public class AssetLoader {
 		highScore = new TextureRegion(texture, 201, 18, 48, 7);
 		highScore.flip(false, true);
 
-		bsLogo = new TextureRegion(texture, 0, 55, 135, 24);
+		bsLogo = new TextureRegion(texture, 0, 55, 148, 40);
 		bsLogo.flip(false, true);
 
 		bg = new TextureRegion(texture, 0, 0, 134, 43);
@@ -71,7 +71,7 @@ public class AssetLoader {
 		seaFloor = new TextureRegion(texture, 0, 43, 143, 11);
 		seaFloor.flip(false, true);
 
-		seaSurface = new TextureRegion(texture, 0, 106, 143, 12);
+		seaSurface = new TextureRegion(texture, 0, 113, 143, 12);
 		seaSurface.flip(false, true);
 
 		sharkDown = new TextureRegion(texture, 135, 0, 22, 15);
@@ -90,7 +90,7 @@ public class AssetLoader {
 		plastic = new TextureRegion(texture, 136, 20, 24, 19);
 		plastic.flip(false, true);
 
-		oil = new TextureRegion(texture, 68, 84, 69, 12);
+		oil = new TextureRegion(texture, 68, 98, 69, 13);
         oil.flip(false, true);
 
 		dead = Gdx.audio.newSound(Gdx.files.internal("data/dead.wav"));

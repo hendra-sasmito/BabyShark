@@ -345,7 +345,7 @@ public class GameRenderer {
     }
 
 	private void drawMenuUI() {
-		batcher.draw(bsLogo, 136 / 2 - 56, midPointY - 50,
+		batcher.draw(bsLogo, 136 / 2 - 62, midPointY - 80,
 				bsLogo.getRegionWidth() / 1.2f, bsLogo.getRegionHeight() / 1.2f);
 
 		for (SimpleButton button : menuButtons) {
