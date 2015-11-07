@@ -36,8 +36,8 @@ public class AssetLoader {
 		texture = new Texture(Gdx.files.internal("data/texture.png"));
 		texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 
-		playButtonUp = new TextureRegion(texture, 168, 93, 85, 17);
-		playButtonDown = new TextureRegion(texture, 168, 110, 85, 17);
+		playButtonUp = new TextureRegion(texture, 168, 93, 85, 18);
+		playButtonDown = new TextureRegion(texture, 168, 110, 85, 18);
 		playButtonUp.flip(false, true);
 		playButtonDown.flip(false, true);
 
