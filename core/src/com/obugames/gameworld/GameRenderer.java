@@ -109,7 +109,7 @@ public class GameRenderer {
 		shapeRenderer.begin(ShapeType.Filled);
 
 		// Draw Background color
-		shapeRenderer.setColor(113 / 255.0f, 241 / 255.0f, 242 / 255.0f, 1);
+		shapeRenderer.setColor(0 / 255.0f, 175 / 255.0f, 217 / 255.0f, 1);
 		shapeRenderer.rect(0, 0, 136, midPointY + 66);
 
 		// Draw Grass
@@ -402,8 +402,8 @@ public class GameRenderer {
 		batcher.draw(ready, 36, midPointY - 30, 68, 14);
         batcher.draw(plastic, 18, midPointY - 60, 24, 19);
         batcher.draw(oil, 54, midPointY - 60, 69, 12);
-        AssetLoader.shadow.draw(batcher, "Help to avoid", 5, 10);
-        AssetLoader.font.draw(batcher, "Help to avoid", 5, 10);
+        AssetLoader.shadow.draw(batcher, "Tap screen to avoid", 5, 10);
+        AssetLoader.font.draw(batcher, "Tap screen to avoid", 5, 10);
         AssetLoader.shadow.draw(batcher, "plastic, oil spill", 5, 30);
         AssetLoader.font.draw(batcher, "plastic, oil spill", 5, 30);
 	}
